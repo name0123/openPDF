@@ -5,6 +5,7 @@ from collections import OrderedDict
 
 def ordena_subdata(data):
 	new_data = {}
+	subdatin = {}
 	for i in range(0,len(data)):
 		new_sub_data = {}
 		k = i + 1
@@ -28,7 +29,6 @@ def ordena_subdata(data):
 			else:
 				#si no coinciden las y, es que las respuestas van en vertical
 				newlist = sorted(sub_elementos, key=lambda k: k['coord_y1'], reverse=True)
-			subdatin = {}
 			cont = 1
 			miro_x = 1
 			for g in range (0,len(newlist)):
@@ -188,7 +188,7 @@ def getQuestions(fileName):
 
 	#buscamos los colores
 	array2 = []
-	for m2 in re.finditer('/C', text):
+	for m2 in re.finditer('/C\[', text):
 		coords2 = {}
 		coords2['end2'] = m2.end()
 		array2.append(coords2)
@@ -210,7 +210,7 @@ def getQuestions(fileName):
 
 		#nos quedamos el color
 		c2 = array2[k]
-		color = text[c2['end2']+1:c2['end2']+6]
+		color = text[c2['end2']+1:c2['end2']+100]
 
 		sub_coord = {}
 		sub_coord['coord_x1'] = coordenadas[0]
@@ -224,9 +224,9 @@ def getQuestions(fileName):
 
 		color = color.replace(' ','')
 
-		if(color == '110'):
+		if(color.split(']')[0] == '.00.8196110.0'):
 			coordsR.append(sub_coord)
-		elif(color == '011'):
+		elif(color.split(']')[0] == '.00.00.0'):
 			coordsP.append(sub_coord)
 
 	#omplim json
