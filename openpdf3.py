@@ -23,7 +23,7 @@ def ordena_subdata(data):
 		if(len(tmp)>1):
 			if(sub_elementos[0]['coord_y1'] == sub_elementos[1]['coord_y1']):
 				#si coinciden las y, es que las respuestas van el horizontal
-				newlist = sorted(sub_elementos, key=lambda k: k['coord_x1']) 
+				newlist = sorted(sub_elementos, key=lambda k: k['coord_x1'])
 			else:
 				#si no coinciden las y, es que las respuestas van en vertical
 				newlist = sorted(sub_elementos, key=lambda k: k['coord_y1'], reverse=True)
@@ -53,7 +53,7 @@ def ordena_subdata(data):
 		new_data[txt] = subdatin
 	result = new_data
 	return result
-		
+
 def fill_json(coordsP,coordsR):
 	data = {}
 	k = 0
@@ -103,7 +103,7 @@ def fill_json(coordsP,coordsR):
 					sub_sub_data['centre_y'] = (( float(resp['coord_y1']) + float(resp['coord_y3']) )/2)
 					sub_sub_data['Marcada'] = "NO"
 					sub_data[txt2] = sub_sub_data
-					
+
 				#para poner la coordenadas en las preguntas
 				#sub_data['p-coord_x1'] = float(preg1['coord_x1'])
 				#sub_data['p-coord_y1'] = float(preg1['coord_y1'])
@@ -115,7 +115,7 @@ def fill_json(coordsP,coordsR):
 				#sub_data['p-coord_y4'] = float(preg1['coord_y4'])
 				#sub_data['p-coord_y4'] = float(preg1['coord_y4'])
 				#sub_data['numero_pregunta'] = k
-					
+
 			elif(i == len(coordsP) -1):
 				#ultimo caso
 				preg = coordsP[i]
@@ -155,9 +155,9 @@ def fill_json(coordsP,coordsR):
 					sub_sub_data['centre_y'] = (( float(resp['coord_y1']) + float(resp['coord_y3']) )/2)
 					sub_sub_data['Marcada'] = "NO"
 					sub_data[txt2] = sub_sub_data
-				
+
 				#para poner la coordenadas en las preguntas
-				
+
 				#sub_data['p-coord_x1'] = float(preg['coord_x1'])
 				#sub_data['p-coord_y1'] = float(preg['coord_y1'])
 				#sub_data['p-coord_x2'] = float(preg['coord_x2'])
@@ -167,7 +167,7 @@ def fill_json(coordsP,coordsR):
 				#sub_data['p-coord_x4'] = float(preg['coord_x4'])
 				#sub_data['p-coord_y4'] = float(preg['coord_y4'])
 				#sub_data['numero_pregunta'] = k
-				
+
 		data[txt] = sub_data
 	tmp = ordena_subdata(data)
 	return tmp
@@ -176,15 +176,15 @@ def getQuestions(fileName):
 	comando = 'cat -v ' + fileName
 	text = subprocess.check_output(comando, shell=True)
 	text = text.decode('utf-8')
-	
+
 	#buscamos la coordenadas de los highlights
 	array = []
 	for m in re.finditer('/QuadPoints ', text):
 		coords = {}
 		coords['end'] = m.end()
 		array.append(coords)
-	
-	#buscamos los colores	
+
+	#buscamos los colores
 	array2 = []
 	for m2 in re.finditer('/C ', text):
 		coords2 = {}
@@ -200,16 +200,16 @@ def getQuestions(fileName):
 		c1 = array[k]
 		coordenadas = text[c1['end']+1:c1['end']+100]
 		coordenadas = coordenadas.split(' ')
-		
+
 		point1 = text.find('/P ', c1['end']+100,len(text))
 		point2 = text.find('R', point1,len(text))
 		pagina = text[point1:point2]
 		pagina = pagina.split(' ')
-		
+
 		#nos quedamos el color
 		c2 = array2[k]
 		color = text[c2['end2']+1:c2['end2']+6]
-		
+
 		sub_coord = {}
 		sub_coord['coord_x1'] = coordenadas[0]
 		sub_coord['coord_y1'] = float(coordenadas[1])+(maximoOP/float(pagina[1]))
@@ -221,12 +221,12 @@ def getQuestions(fileName):
 		sub_coord['coord_y4'] = float(coordenadas[7])+(maximoOP/float(pagina[1]))
 
 		color = color.replace(' ','')
-		
+
 		if(color == '110'):
 			coordsR.append(sub_coord)
 		elif(color == '011'):
 			coordsP.append(sub_coord)
-			
+	print(array)
 	#omplim json
 	data = fill_json(coordsP,coordsR)
 
@@ -234,7 +234,6 @@ def getQuestions(fileName):
 	text_file.write(json.dumps(data, sort_keys=True, indent=4, separators=(',', ': ')))
 
 	text_file.close()
-	return;
 
 def getAnswers():
 	id = 1
@@ -256,19 +255,19 @@ def getAnswers():
 			c = coordenadas.find(']')
 			cor = coordenadas[:c-1]
 			cor = cor.split(' ')
-			
+
 			point1 = coordenadas.find('/P ', c,len(coordenadas))
 			point2 = coordenadas.find('R', point1,len(coordenadas))
 			pagina = coordenadas[point1:point2]
 			pagina = pagina.split(' ')
-			
+
 			c_x = abs(float(cor[0]) + float(cor[len(cor)-2])) /2
 			c_y = abs((float(cor[1])+(10000000000/float(pagina[1]))) + float((cor[len(cor)-1]))+(10000000000/float(pagina[1]))) /2
 			cor_prov = {}
 			cor_prov['x'] = c_x
 			cor_prov['y'] = c_y
 			cords.append(cor_prov)
-			
+
 		for m in re.finditer('/QuadPoints', text):
 			coords = {}
 			coords['end'] = m.end()
@@ -280,19 +279,19 @@ def getAnswers():
 			c = coordenadas.find(']')
 			cor = coordenadas[:c-1]
 			cor = cor.split(' ')
-			
+
 			point1 = coordenadas.find('/P ', c,len(coordenadas))
 			point2 = coordenadas.find('R', point1,len(coordenadas))
 			pagina = coordenadas[point1:point2]
 			pagina = pagina.split(' ')
-			
+
 			c_x = abs(float(cor[0]) + float(cor[len(cor)-2])) /2
 			c_y = abs((float(cor[1])+(10000000000/float(pagina[1]))) + float((cor[len(cor)-1]))+(10000000000/float(pagina[1]))) /2
 			cor_prov = {}
 			cor_prov['x'] = c_x
 			cor_prov['y'] = c_y
 			cords.append(cor_prov)
-		
+
 		with open('json.json') as text_file:
 			data = json.load(text_file)
 		resultat = {}
@@ -332,4 +331,3 @@ if(op=='1'):
 	getQuestions(fileName)
 elif(op == '2'):
 	getAnswers()
-
