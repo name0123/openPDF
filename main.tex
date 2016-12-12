@@ -1,0 +1,52 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{paralist}
+\usepackage{enumitem}
+
+\title{SLDS Project}
+\author{Jaime Pascual, Albert Lobo}
+\date{December 2016}
+
+\begin{document}
+
+\textbf{Encuesta}
+
+\begin{enumerate}
+  \item ¿De qué color es el caballo blanco de Santiago?
+    \begin{enumerate}[label=\arabic*)]
+      \item Rojo
+      \item Verde
+      \item Azul
+    \end{enumerate}
+  \item Indica la importancia de respirar: \\
+    \begin{inparaenum}[1)]
+      \item Poca \hspace{1ex}
+      \item \hspace{1ex}
+      \item \hspace{1ex}
+      \item \hspace{1ex}
+      \item \hspace{1ex}
+      \item \hspace{1ex}
+      \item \hspace{1ex}
+      \item \hspace{1ex}
+      \item \hspace{1ex}
+      \item Mucha
+    \end{inparaenum}
+  \vspace{500ex}
+  \item ¿Piedra, papel, o tijera?
+    \begin{enumerate}[label=\arabic*)]
+      \item Ninguna de las anteriores
+      \item La 1)
+    \end{enumerate}
+  \item Indica el factor de frescura: \\
+    \begin{inparaenum}[1)]
+      % esta lista es algo más corta y hay que insertar \hspace{2ex}
+      % para que el parser saque una LTTextBoxHorizontal para cada respuesta
+      \item Limón \hspace{2ex}
+      \item \hspace{2ex}
+      \item \hspace{2ex}
+      \item Kiwi
+    \end{inparaenum}
+\end{enumerate}
+
+\end{document}
