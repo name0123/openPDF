@@ -7,12 +7,27 @@ Este proyecto continúa el trabajo un quatrimestre anterior para la asignatura *
 
 Índice
 ======
-  * [OpenPDF v2.0](#OpenPDF-v2.0)
-  * [FAQ](#FAQ)
-  * [Instalación](#Instalación)
-  * [Uso](#Uso)
-  * [TODO](#TODO)
-  * [Licencia](#Licencia)
+  * [OpenPDF v2.0](#openPDF-v20)
+  * [Índice](#Índice)
+  * [FAQ](#faq)
+    * [¿Cuál es la idea?](#cuál-es-la-idea)
+    * [¿Qué distingue las respuestas seleccionadas?](#qué-distingue-las-respuestas-seleccionadas)
+    * [¿Cómo sabemos a qué pregunta corresponde cada respuesta?](#cómo-sabemos-a-qué-pregunta-corresponde-cada-respuesta)
+    * [PDFs de ejemplo](#pdfs-de-ejemplo)
+    * [¿Cómo proporciona *OpenPDF* los resultados?](#cómo-proporciona-openpdf-los-resultados)
+    * [¿Qué piensas del formato *pdf*?](#qué-piensas-del-formato-pdf)
+  * [Instalación](#instalación)
+  * [Uso](#uso)
+    * [Scripts](#scripts)
+      * [main.py](#mainpy)
+      * [histo.py](#histopy)
+    * [Flujo de trabajo](#flujo-de-trabajo)
+      * [Crear el pdf de la encuesta](#crear-el-pdf-de-la-encuesta)
+      * [Resaltar las preguntas y las respuestas](#resaltar-las-preguntas-y-las-respuestas)
+      * [Pasar las encuestas](#pasar-las-encuestas)
+      * [Ejecutar OpenPDF](#ejecutar-openpdf)
+  * [TODO](#todo)
+  * [Licencia](#licencia)
 
 FAQ
 ===
@@ -109,19 +124,23 @@ python histo.py
 Scripts
 -------
 **main.py**
+
 *main.py* analiza todas las encuestas y genera los ficheros *.json* que contienen los resultados (*questions.json* y *answers.json*).
 
 **histo.py**
+
 *histo.py* genera una gráfica para cada pregunta: un histograma con las frecuencias de las diferentes respuestas.
 
 Flujo de trabajo
 ----------------
 Típicamente querrás analizar los resultados de tus propias encuestas. Para ello es conveniente seguir los siguientes pasos:
 
-**Crear el *pdf* de la encuesta** 
+##### Crear el *pdf* de la encuesta
+
 Este paso es especialmente delicado ya que este *pdf* necesita tener una estructura muy concreta. En particular, el texto de cada pUtilizar Adobe Reader garantiza que la restriccion del highlight se cumpleregunta y cada respuesta debe encontrarse en un *PDFObject* de tipo *LTTextBoxHorizontal*. Crear el *pdf* con [latex](https://www.latex-project.org/) y una plantilla parecida a [esta](https://github.com/Pacific01/openPDF/blob/development/Samples/main.tex) garantiza que dicha restricción se cumplirá.
 
-**Resaltar las preguntas y las respuestas**
+##### Resaltar las preguntas y las respuestas
+
 Elige un color (por ejemplo, azul) y resalta, una por una, todas las preguntas del cuestionario. A continuación, selecciona un segundo color diferente al anterior (por ejemplo, verde), y resalta, una por una, todas las respuestas. Guarda el *pdf*, y ¡ya tienes la plantilla de preguntas-respuestas!
 
 El *pdf* resultante debe cumplir la restricción del anterior apartado, y además para toda pregunta y respuesta ha de existir un *PDFObject* de tipo *Annot*, subtipo */Highlight*, y cuyo color es el de una pregunta o una respuesta. Utilizar [Adobe Reader](https://acrobat.adobe.com/us/en/acrobat/pdf-reader.html) garantiza que la restriccion del *highlight* se cumplirá.
@@ -136,7 +155,7 @@ pdf.tree.write("test.xml", pretty_print=True, encoding="utf-8")
 ```
 Si el `test.xml` tiene una estructura similar a [esta](https://github.com/Pacific01/openPDF/blob/development/Samples/test.xml), es que tiene el formato aceptado.
 
-**Configurar el script *main.py***
+##### Configurar el script main.py
 Para hacer su trabajo, *OpenPDF* sólo necesita saber cuál es la plantilla de preguntas-respuestas, y el directorio donde buscar los *pdf* con las respuestas. Abre el fichero *main.py* con un editor de texto cualquiera, y modifica las siguientes constantes para especificar tus propias encuestas:
 ```
 QUESTIONS_FILE = 'Preguntas/SLDS_Project_Questions.pdf'
@@ -147,10 +166,10 @@ Adicionalmente, puedes especificar el color del que estarán resaltadas las preg
 QCOLOR, ACOLOR = '[0.0, 0.0, 1.0]', '[0.0, 1.0, 0.0]'
 ```
 
-**Pasar las encuestas**
+##### Pasar las encuestas
 El siguiente paso es que los encuestados contesten enviando un *pdf* con sus propias respuestas seleccionadas. Es importante que no rompan las restricciones de formato, por lo que de nuevo se recomienda que utilizen *Adobe Reader* para añadir los *highlights*. Cabe notar que el color del *highlight* en este paso ya no importa. Añade todos estos *pdf* de respuestas a la carpeta anteriormente indicada.
 
-**Ejecutar OpenPDF**
+##### Ejecutar OpenPDF
 ¡Teclea los siguientes comandos y tus encuestas serán procesadas! :)
 ```
 python main.py
