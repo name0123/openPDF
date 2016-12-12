@@ -7,7 +7,7 @@ Este proyecto continúa el trabajo un quatrimestre anterior para la asignatura *
 
 Índice
 ======
-  * [OpenPDF v2.0](#openPDF-v20)
+  * [OpenPDF v2.0](#openpdf-v20)
   * [Índice](#Índice)
   * [FAQ](#faq)
     * [¿Cuál es la idea?](#cuál-es-la-idea)
@@ -123,11 +123,13 @@ python histo.py
 
 Scripts
 -------
-**main.py**
+*OpenPDF* proporciona dos prácticos scripts: *main.py* y *histo.py*.
+
+##### main.py
 
 *main.py* analiza todas las encuestas y genera los ficheros *.json* que contienen los resultados (*questions.json* y *answers.json*).
 
-**histo.py**
+##### histo.py
 
 *histo.py* genera una gráfica para cada pregunta: un histograma con las frecuencias de las diferentes respuestas.
 
@@ -155,7 +157,7 @@ pdf.tree.write("test.xml", pretty_print=True, encoding="utf-8")
 ```
 Si el `test.xml` tiene una estructura similar a [esta](https://github.com/Pacific01/openPDF/blob/development/Samples/test.xml), es que tiene el formato aceptado.
 
-##### Configurar el script main.py
+##### Configurar el script *main.py*
 Para hacer su trabajo, *OpenPDF* sólo necesita saber cuál es la plantilla de preguntas-respuestas, y el directorio donde buscar los *pdf* con las respuestas. Abre el fichero *main.py* con un editor de texto cualquiera, y modifica las siguientes constantes para especificar tus propias encuestas:
 ```
 QUESTIONS_FILE = 'Preguntas/SLDS_Project_Questions.pdf'
