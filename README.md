@@ -1,3 +1,12 @@
-openpdf3 - la version (2) del drive
-openpdfx - la version vx del drive
-openpdf3 - empezado desde cero hasta donde llegue, es mas que nada, debugando desde cero.
+# OpenPDF v2.0
+
+Programa para generar estadísticas a partir de una encuestas en PDF.
+
+## Prerequisitos
+- [pdfquery](https://pypi.python.org/pypi/pdfquery)
+- Gnuplot
+
+## Instalación
+
+## Licencia
+OpenPDF es un programa open-source bajo la licencia [MIT](https://opensource.org/licenses/MIT).
